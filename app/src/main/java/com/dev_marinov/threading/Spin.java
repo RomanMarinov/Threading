@@ -8,11 +8,9 @@ import java.util.Random;
 
 class Spin {
 
-    myInterface myInterface;
-
+    myInterface myInterface;  // интерфейс для отправки данных в ui
 
     Context context;
-  //  ThreadLocalRandom random = new ThreadLocalRandom();
     boolean boolRun_1, boolRun_2, boolRun_3;
     Thread thread_1, thread_2, thread_3;
 
@@ -22,11 +20,6 @@ class Spin {
 
     public Spin(Context context) {
         this.context = context;
-
-//        run_1(); // инициализация метода
-//        run_2(); // инициализация метода
-//        run_3(); // инициализация метода
-
     }
 
     // код для вращения
@@ -47,10 +40,8 @@ class Spin {
                         public void run() {
                     ((MainActivity)context).img_spin.setRotation(i);
                     Log.e("тут","-тут-" + i);
-                          //  ((MainActivity)context).img_spin.setImageDrawable(android.R.color.black);
                         }
                     });
-
 
                 try {
                     Thread.sleep(1000);
@@ -70,37 +61,30 @@ class Spin {
         new Thread(new Runnable() { // не главный поток
             @Override
             public void run() {
-                while (boolRun_2)
-                {
-
-                    Log.e("333 run_2","-thread_2-");
-
-                    int c = Color.argb(255, r.nextInt(255), r.nextInt(255), r.nextInt(255));
-                    ((MainActivity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((MainActivity)context).img_spin.setBackgroundColor(c);
+                    while (boolRun_2)
+                    {
+                        Log.e("333 run_2","-thread_2-");
+                        int c = Color.argb(255, r.nextInt(255), r.nextInt(255), r.nextInt(255));
+                        ((MainActivity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((MainActivity)context).img_spin.setBackgroundColor(c);
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
                 }
             }
         }).start();
-
-
     }
 
     // код счетчика
     public void run_3() { // главный поток
 
         z = -1;
-
         new Thread(new Runnable() { // не главный поток
             @Override
             public void run() {
@@ -116,7 +100,6 @@ class Spin {
                     @Override
                     public void run() {
                         //((MainActivity)context).tv_time.setText(String.valueOf(z));
-
                         myInterface.methodInterface("" + z);
                     }
                 });
@@ -130,7 +113,6 @@ class Spin {
         }).start();
     }
 
-
     interface myInterface
     {
         void methodInterface(String text);
@@ -140,7 +122,5 @@ class Spin {
     {
         this.myInterface = myInterface;
     }
-
-
 
 }

@@ -2,7 +2,14 @@ package com.dev_marinov.threading;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         spin = new Spin(this);
 
-
+        // интерфейс для получения данных из потока и обновления view
         spin.setMyInterface(new Spin.myInterface() {
             @Override
             public void methodInterface(String text) {
@@ -45,33 +52,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Log.e("333main_act","-flagThreads" + flagThreads);
 
+        // кнопка Spin вращение view (запуск и закрытие)
         btSpin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 methodSpin();
             }
         });
-
+        // кнопка btChangeColor смена цвета view (запуск и закрытие)
         btChangeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 methodChangeColor();
             }
         });
-
+        // кнопка btCounter счетчик для view (запуск и закрытие)
         btCounter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 methodCounter();
             }
         });
-
+        // кнопка btThreads (для всех потоков запуск и закрытие)
         btThreads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,30 +87,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void methodSpin()
     {
+        // заходим сюда если поток спин не активен, чтобы его запустить
         if(flagSpin.equals(false))
         {
             Log.e("333main_act","-зашел flagSpin в IF-");
             btSpin.setText("close spin");
             img_spin.setVisibility(View.VISIBLE);
             flagSpin = true;
-            spin.boolRun_1 = true;
-            spin.run_1();
-            tvSpinStatus.setText("- process...");
+            spin.boolRun_1 = true; // передаем true для запуска вечного цикла
+            spin.run_1(); // запускаем метод с потоком
+            tvSpinStatus.setText("- process..."); // статус в процессе
             Log.e("333main_act","-flagSpin в IF-" + flagSpin);
 
-            checkClosedOrNot();
+            checkProcessOrNot(); // проверяем все ли потоки запущены
         }
-        else
+        else // заходим сюда если поток активен
         {
             Log.e("333main_act","-зашел flagSpin в ELSE-");
             btSpin.setText("start spin");
             flagSpin = false;
-            spin.boolRun_1 = false;
+            spin.boolRun_1 = false; // закрываем поток
             tvSpinStatus.setText("- closed");
+            img_spin.setVisibility(View.INVISIBLE); // убираем с экрана image
 
-            img_spin.setVisibility(View.INVISIBLE);
-
-            checkProcessOrNot();
+            checkClosedOrNot(); // проверяем все ли потоки закрыты
             Log.e("333main_act","-flagSpin в ELSE-" + flagSpin);
         }
     }
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             tvChangeColorStatus.setText("- process...");
             Log.e("333main_act","-flagChangeColor в IF-" + flagChangeColor);
 
-            checkClosedOrNot();
+            checkProcessOrNot();
         }
         else
         {
@@ -134,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             tvChangeColorStatus.setText("- closed");
             img_spin.setImageDrawable(null);
 
-            checkProcessOrNot();
+            checkClosedOrNot();
             Log.e("333main_act","-flagChangeColor в ELSE-" + flagChangeColor);
         }
     }
@@ -151,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             tvCounterStatus.setText("- process...");
             Log.e("333main_act","-flagCounter в IF-" + flagCounter);
 
-            checkClosedOrNot();
+            checkProcessOrNot();
         }
         else
         {
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             tvCounterStatus.setText("- closed");
             tv_time.setText(""); // при остановке потока очищаем содержимое tv_time
 
-            checkProcessOrNot();
+            checkClosedOrNot();
             Log.e("333main_act","-flagCounter в ELSE-" + flagCounter);
         }
     }
@@ -223,20 +227,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void checkProcessOrNot()
+    public void checkClosedOrNot()
     {
         // если все потоки закрыты
         if(flagSpin.equals(false) && flagChangeColor.equals(false) && flagCounter.equals(false))
         {
             btThreads.setText("start all threads");
             flagThreads = false;
-
-
-
         }
     }
 
-    public void checkClosedOrNot()
+    public void checkProcessOrNot()
     {
         if(flagSpin.equals(true) && flagChangeColor.equals(true) && flagCounter.equals(true))
         {
