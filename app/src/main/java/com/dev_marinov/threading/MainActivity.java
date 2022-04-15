@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             flagSpin = false;
             spin.boolRun_1 = false; // закрываем поток
             tvSpinStatus.setText("- closed");
-            img_spin.setVisibility(View.INVISIBLE); // убираем с экрана image
+            //img_spin.setVisibility(View.INVISIBLE); // убираем с экрана image
 
             checkClosedOrNot(); // проверяем все ли потоки закрыты
             Log.e("333main_act","-flagSpin в ELSE-" + flagSpin);
@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
             spin.run_2();
             tvChangeColorStatus.setText("- process...");
             Log.e("333main_act","-flagChangeColor в IF-" + flagChangeColor);
+
+            img_spin.setVisibility(View.VISIBLE);
 
             checkProcessOrNot();
         }
@@ -234,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         {
             btThreads.setText("start all threads");
             flagThreads = false;
+            img_spin.setVisibility(View.GONE);
         }
     }
 
@@ -243,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         {
             btThreads.setText("close all threads");
             flagThreads = true;
+            img_spin.setVisibility(View.VISIBLE);
         }
     }
 

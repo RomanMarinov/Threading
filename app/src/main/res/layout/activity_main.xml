@@ -123,21 +123,21 @@
                 android:id="@+id/tvSpinStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- cloced"
+                android:text="- closed"
                 android:textColor="@color/white"
                 />
             <TextView
                 android:id="@+id/tvChangeColorStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- cloced"
+                android:text="- closed"
                 android:textColor="@color/white"
                 />
             <TextView
                 android:id="@+id/tvCounterStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- cloced"
+                android:text="- closed"
                 android:textColor="@color/white"
                 />
         </LinearLayout>

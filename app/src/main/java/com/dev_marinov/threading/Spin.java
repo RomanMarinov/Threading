@@ -101,6 +101,7 @@ class Spin {
                     public void run() {
                         //((MainActivity)context).tv_time.setText(String.valueOf(z));
                         myInterface.methodInterface("" + z);
+
                     }
                 });
                     try {
